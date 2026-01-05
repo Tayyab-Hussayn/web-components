@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Sphere Component</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Antic&family=Fira+Code:wght@700&family=Montserrat:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- For Brush Script alternative -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+    </style>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+        }
+        
+        .blur-text-span {
+            display: inline-block;
+            transition: all 0.5s ease-out;
+        }
+        
+        /* Initial state for blur animation */
+        .blur-hidden {
+            filter: blur(10px);
+            opacity: 0;
+        }
+
+        .blur-visible {
+            filter: blur(0px);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .blur-top {
+            transform: translateY(-20px);
+        }
+        
+        .blur-bottom {
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+
+<body class="bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-300 min-h-screen">
+
+    <!-- App Container -->
+    <div id="app" class="min-h-screen transition-colors duration-300"
+        style="background-color: hsl(0 0% 0%); color: hsl(0 0% 100%);">
+
+        <!-- Header -->
+        <header class="fixed top-0 left-0 right-0 z-50 px-6 py-6">
+            <nav class="flex items-center justify-between max-w-screen-2xl mx-auto">
+
+                <!-- Menu Button -->
+                <div class="relative">
+                    <button id="menu-btn" type="button"
+                        class="p-2 transition-colors duration-300 z-50 text-neutral-500 hover:text-black dark:hover:text-white"
+                        aria-label="Open menu">
+                        <i data-lucide="menu" class="w-8 h-8 transition-colors duration-300 icon-menu"></i>
+                        <i data-lucide="x" class="w-8 h-8 transition-colors duration-300 icon-close hidden"></i>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="dropdown-menu"
+                        class="hidden absolute top-full left-0 w-[200px] md:w-[240px] border-none shadow-2xl mt-2 ml-4 p-4 rounded-lg z-[100] bg-white dark:bg-black">
+                        <!-- Menu items injected by JS or static -->
+                        <a href="#"
+                            class="block text-lg md:text-xl font-bold tracking-tight py-1.5 px-2 cursor-pointer transition-colors duration-300 text-[#C3E41D]">HOME</a>
+                        <a href="#"
+                            class="block text-lg md:text-xl font-bold tracking-tight py-1.5 px-2 cursor-pointer transition-colors duration-300 hover:text-[#C3E41D]">ABOUT</a>
+                        <a href="#"
+                            class="block text-lg md:text-xl font-bold tracking-tight py-1.5 px-2 cursor-pointer transition-colors duration-300 hover:text-[#C3E41D]">PROJECTS</a>
+                        <a href="#"
+                            class="block text-lg md:text-xl font-bold tracking-tight py-1.5 px-2 cursor-pointer transition-colors duration-300 hover:text-[#C3E41D]">EXPERIENCE</a>
+                        <a href="#"
+                            class="block text-lg md:text-xl font-bold tracking-tight py-1.5 px-2 cursor-pointer transition-colors duration-300 hover:text-[#C3E41D]">EDUCATION</a>
+                        <a href="#"
+                            class="block text-lg md:text-xl font-bold tracking-tight py-1.5 px-2 cursor-pointer transition-colors duration-300 hover:text-[#C3E41D]">WRITING</a>
+                        <a href="#"
+                            class="block text-lg md:text-xl font-bold tracking-tight py-1.5 px-2 cursor-pointer transition-colors duration-300 hover:text-[#C3E41D]">CONTACT</a>
+                    </div>
+                </div>
+
+                <!-- Signature -->
+                <div class="text-4xl" style="font-family: 'Dancing Script', cursive;">
+                    A
+                </div>
+
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" type="button"
+                    class="relative w-16 h-8 rounded-full hover:opacity-80 transition-opacity bg-neutral-800"
+                    aria-label="Toggle theme">
+                    <div id="theme-toggle-circle"
+                        class="absolute top-1 left-1 w-6 h-6 rounded-full transition-transform duration-300 bg-white transform translate-x-8">
+                    </div>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <main class="relative min-h-screen flex flex-col">
+
+            <!-- Centered Main Name -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-4">
+                <div class="relative text-center">
+
+                    <!-- First Name -->
+                    <div class="blur-text-container justify-center whitespace-nowrap" data-text="ALEX" data-delay="100"
+                        data-animate-by="letters" style="color: #C3E41D; font-family: 'Fira Code', monospace;">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="blur-text-container justify-center whitespace-nowrap" data-text="KANE" data-delay="100"
+                        data-animate-by="letters" style="color: #C3E41D; font-family: 'Fira Code', monospace;">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <!-- Profile Picture -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                        <div
+                            class="w-[65px] h-[110px] sm:w-[90px] sm:h-[152px] md:w-[110px] md:h-[185px] lg:w-[129px] lg:h-[218px] rounded-full overflow-hidden shadow-2xl transition-transform duration-300 hover:scale-110 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop"
+                                alt="Profile" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tagline -->
+            <div
+                class="absolute bottom-16 sm:bottom-20 md:bottom-24 lg:bottom-32 xl:bottom-36 left-1/2 -translate-x-1/2 w-full px-6">
+                <div class="flex justify-center">
+                    <div class="blur-text-container text-center transition-colors duration-300 text-neutral-500 hover:text-black dark:hover:text-white"
+                        data-text="Designing human experiences in code." data-delay="150" data-animate-by="words"
+                        style="font-family: 'Antic', sans-serif;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <button type="button"
+                class="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 transition-colors duration-300"
+                aria-label="Scroll down">
+                <i data-lucide="chevron-down"
+                    class="w-5 h-5 md:w-8 md:h-8 text-neutral-500 hover:text-black dark:hover:text-white transition-colors duration-300"></i>
+            </button>
+
+        </main>
+    </div>
+
+    <!-- Logic -->
+    <script>
+        // --- Icons ---
+        lucide.createIcons();
+
+        // --- Theme Toggle ---
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeCircle = document.getElementById('theme-toggle-circle');
+        const html = document.documentElement;
+        const app = document.getElementById('app');
+        const dropdown = document.getElementById('dropdown-menu');
+
+        let isDark = true;
+
+        function updateTheme() {
+            if (isDark) {
+                html.classList.add('dark');
+                themeCircle.style.transform = 'translateX(2rem)';
+                themeBtn.style.backgroundColor = 'hsl(0 0% 15%)';
+                themeCircle.style.backgroundColor = 'hsl(0 0% 100%)';
+
+                app.style.backgroundColor = 'hsl(0 0% 0%)';
+                app.style.color = 'hsl(0 0% 100%)';
+                dropdown.style.backgroundColor = 'hsl(0 0% 0%)';
+            } else {
+                html.classList.remove('dark');
+                themeCircle.style.transform = 'translateX(0)';
+                themeBtn.style.backgroundColor = 'hsl(0 0% 90%)';
+                themeCircle.style.backgroundColor = 'hsl(0 0% 10%)';
+
+                app.style.backgroundColor = 'hsl(0 0% 98%)';
+                app.style.color = 'hsl(0 0% 10%)';
+                dropdown.style.backgroundColor = 'hsl(0 0% 98%)';
+            }
+        }
+
+        themeBtn.addEventListener('click', () => {
+            isDark = !isDark;
+            updateTheme();
+        });
+
+        // Initialize Theme
+        updateTheme();
+
+
+        // --- Menu Toggle ---
+        const menuBtn = document.getElementById('menu-btn');
+        const menuIcon = menuBtn.querySelector('.icon-menu');
+        const closeIcon = menuBtn.querySelector('.icon-close');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+
+        let isMenuOpen = false;
+
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                dropdownMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                dropdownMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent closing immediately
+            toggleMenu();
+        });
+
+        // Close menu on click outside
+        document.addEventListener('click', (e) => {
+            if (isMenuOpen && !menuBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                toggleMenu();
+            }
+        });
+
+
+        // --- BlurText Animation ---
+
+        class BlurText {
+            constructor(element) {
+                this.element = element;
+                this.text = element.dataset.text;
+                this.delay = parseInt(element.dataset.delay) || 50;
+                this.animateBy = element.dataset.animateBy || 'words';
+                this.direction = 'top'; // Default top
+
+                // Add base classes
+                if (!element.classList.contains('font-bold')) {
+                    if (element.parentElement.closest('.text-center')) {
+                        // Apply styling from React props roughly mapped
+                        if (this.text === 'ALEX' || this.text === 'KANE') {
+                            element.className += " font-bold text-[100px] sm:text-[140px] md:text-[180px] lg:text-[210px] leading-[0.75] tracking-tighter uppercase inline-flex flex-wrap";
+                        } else {
+                            element.className += " inline-flex flex-wrap text-[15px] sm:text-[18px] md:text-[20px] lg:text-[22px]";
+                        }
+                    }
+                }
+
+                this.render();
+                this.observe();
+            }
+
+            render() {
+                const segments = this.animateBy === 'words' ? this.text.split(' ') : this.text.split('');
+
+                this.element.innerHTML = ''; // Clear
+
+                segments.forEach((segment, i) => {
+                    const span = document.createElement('span');
+                    span.textContent = segment;
+                    span.classList.add('blur-text-span', 'blur-hidden');
+
+                    if (this.direction === 'top') span.classList.add('blur-top');
+                    else span.classList.add('blur-bottom');
+
+                    span.style.transitionDelay = `${i * this.delay}ms`;
+
+                    this.element.appendChild(span);
+
+                    // Add space if words
+                    if (this.animateBy === 'words' && i < segments.length - 1) {
+                        const space = document.createTextNode('\u00A0');
+                        this.element.appendChild(space);
+                    }
+                });
+            }
+
+            observe() {
+                const observer = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) {
+                        const spans = this.element.querySelectorAll('.blur-text-span');
+                        spans.forEach(span => {
+                            span.classList.remove('blur-hidden', 'blur-top', 'blur-bottom');
+                            span.classList.add('blur-visible');
+                        });
+                        // Once animated, maybe unobserve? React code unobserves on cleanup, but here we can just leave it or unobserve to run once.
+                        // For this demo let's keep it simple (runs once essentially as they stay in view)
+                    } else {
+                        // Reset if out of view (optional, to mimic React 'inView' state which might toggle back)
+                        // The react code sets inView based on entry.isIntersecting using state.
+                        // So if you scroll away, it goes back to blur.
+                        const spans = this.element.querySelectorAll('.blur-text-span');
+                        spans.forEach(span => {
+                            span.classList.add('blur-hidden');
+                            if (this.direction === 'top') span.classList.add('blur-top');
+                            else span.classList.add('blur-bottom');
+                            span.classList.remove('blur-visible');
+                        });
+                    }
+                }, { threshold: 0.1 });
+
+                observer.observe(this.element);
+            }
+        }
+
+        // Initialize all BlurText components
+        document.addEventListener('DOMContentLoaded', () => {
+            const containers = document.querySelectorAll('.blur-text-container');
+            containers.forEach(el => new BlurText(el));
+        });
+
+    </script>
+</body>
+
+</html>
