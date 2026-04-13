@@ -27,7 +27,7 @@
             const app = LiquidBackground(canvas);
             
             // Using a high-quality abstract image from Unsplash
-            app.loadImage('https://techspirex.com/wp-content/uploads/2026/01/1904.i305.016_programmer-professional-illustration-scaled.jpg');
+            app.loadImage('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop');
             
             app.liquidPlane.material.metalness = 0.75;
             app.liquidPlane.material.roughness = 0.25;
